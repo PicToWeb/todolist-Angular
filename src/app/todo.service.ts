@@ -6,6 +6,7 @@ export interface Todo {
   title: string;
   completed: boolean;
   priority:'low' | 'middle' | 'high';
+  dueDate : Date;
 }
 
 @Injectable({
@@ -23,12 +24,13 @@ export class TodoService {
     return this.todosSubject.asObservable();
   }
 
-  addTodo(title:string,priority:'low' | 'middle' | 'high'){
+  addTodo(title:string,priority:'low' | 'middle' | 'high',dueDate:Date){
     const newTodo: Todo = {
       id: Date.now(),
       title,
       completed:false,
-      priority
+      priority,
+      dueDate
     };
     this.todos=[...this.todos,newTodo];
     this.todosSubject.next(this.todos);

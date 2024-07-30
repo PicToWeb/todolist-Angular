@@ -2,10 +2,13 @@
 <!-- item component -->
 <div class="flex align-middle flex-row justify-between">
   <div class="p-2">
-    <input type="checkbox" class="h-6 w-6 " type="checkbox" [checked]="todo.completed" (change)="onToggleCompletion()"/>
+    <input type="checkbox" class="h-6 w-6 " [checked]="todo.completed" (change)="onToggleCompletion()"/>
   </div>
   <div class="p-2">
     <p class="text-lg text-black-400" [ngClass]="{'completed': todo.completed}" [class.completed]="todo.completed" >{{ todo.title }}</p>
+    <p class="text-sm text-gray-500">
+      Date: {{ todo.dueDate | date:'short' }}
+    </p>
   </div>
   <span [ngClass]="{
     'low-priority': todo.priority === 'low',
@@ -14,7 +17,7 @@
   }">({{ todo.priority | priority }})</span>
   <button
     (click)="onRemove()"
-    class="flex text-red-500 border-2 border-red-500 p-2 rounded-lg">
+    class="flex text-red-500 border-2 border-red-500 p-2 pt-4 rounded-lg">
     <svg class="h-6 w-6 text-red-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
     <span>Remove</span>
   </button>

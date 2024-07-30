@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Todo} from "../todo.service";
-import {NgClass} from "@angular/common";
+import {DatePipe, NgClass} from "@angular/common";
 import {PriorityPipe} from "../priority.pipe";
 
 @Component({
@@ -8,7 +8,8 @@ import {PriorityPipe} from "../priority.pipe";
   standalone: true,
   imports: [
     NgClass,
-    PriorityPipe
+    PriorityPipe,
+    DatePipe
   ],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.css'

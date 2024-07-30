@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Todo, TodoService} from "../todo.service";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {TodoAddComponent} from "../todo-add/todo-add.component";
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {TodoItemComponent} from "../todo-item/todo-item.component";

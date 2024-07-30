@@ -1,14 +1,9 @@
-<!--<div>-->
-<!--  <input [(ngModel)]="newTodoTitle" placeholder="Ajouter nouvelle tâche" />-->
-<!--  <select [(ngModel)]="newToDoPriority">-->
-<!--    <option value="low">Low</option>-->
-<!--    <option value="middle">Middle</option>-->
-<!--    <option value="high">High</option>-->
-<!--  </select>-->
-<!--    <button (click)="onAddTodo()">Ajouter</button>-->
-<!--</div>-->
-
 <div class="mt-4 flex">
+  <input
+    [(ngModel)]="newTodoDueDate"
+    type="date"
+    class="ml-2 border-b-2 border-gray-500 text-black"
+  />
 <input
   [(ngModel)]="newTodoTitle" placeholder="Ajouter nouvelle tâche"
   class="w-80 border-b-2 border-gray-500 text-black"
