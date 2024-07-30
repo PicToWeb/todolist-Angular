@@ -13,7 +13,15 @@
       }
       <ul>
 
-        @for (todo of (showCompletedTodos ? completedTodos$ : todos$) | async;track todos$ ){
+<!--        @for (todo of (showCompletedTodos ? completedTodos$ : todos$) | async;track todos$ ){-->
+<!--          <li class="p-2 rounded-lg">-->
+<!--            <digi-todo-item [todo]="todo" (toggleCompletion) = "onToggleTodoCompletion($event)" (remove)="onRemoveTodo($event)"></digi-todo-item>-->
+<!--          </li>-->
+<!--        }-->
+
+
+
+        @for (todo of (showCompletedTodos ? completedTodos$ : todos$) | async; track trackByTodoId ){
           <li class="p-2 rounded-lg">
             <digi-todo-item [todo]="todo" (toggleCompletion) = "onToggleTodoCompletion($event)" (remove)="onRemoveTodo($event)"></digi-todo-item>
           </li>

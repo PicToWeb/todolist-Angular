@@ -1,0 +1,18 @@
+{
+  "todos": [
+    {
+      "id": "327de2ea-83b0-4813-b85b-69927f10fceb",
+      "title": "dzaddazd",
+      "completed": false,
+      "priority": "middle",
+      "dueDate": "2024-07-21T00:00:00.000Z"
+    },
+    {
+      "id": "070bf5d2-bd1b-4b57-a421-2b14ba1e9f23",
+      "title": "learn react",
+      "completed": true,
+      "priority": "middle",
+      "dueDate": "2024-08-08T00:00:00.000Z"
+    }
+  ]
+}

@@ -20,6 +20,7 @@ export class TodoItemComponent {
   @Output() toggleCompletion = new EventEmitter<string>();
   @Output() remove = new EventEmitter<string>();
 
+
   onToggleCompletion(){
     this.toggleCompletion.emit(this.todo.id);
   }

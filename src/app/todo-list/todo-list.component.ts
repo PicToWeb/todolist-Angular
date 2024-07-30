@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Todo, TodoService} from "../todo.service";
 import {Observable} from "rxjs";
 import {TodoAddComponent} from "../todo-add/todo-add.component";
@@ -17,27 +17,41 @@ import {TodoItemComponent} from "../todo-item/todo-item.component";
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.css'
 })
-export class TodoListComponent {
-
+export class TodoListComponent implements OnInit {
   todos$: Observable<Todo[]> ;
-  completedTodos$: Observable<Todo[]> ;
-  incompleteTodos$: Observable<Todo[]>;
+  // completedTodos$: Observable<any[]> ;
+  // incompleteTodos$: Observable<any[]>;
+
+  // todos$: Observable<Todo[]> ;
+   completedTodos$: Observable<Todo[]> ;
+  // incompleteTodos$: Observable<Todo[]>;
   showCompletedTodos:boolean = false;
 
-  constructor(private todoService: TodoService) {
-    this.todos$ = this.todoService.getTodos();
+  constructor(private todoService: TodoService)  {
+    this.todos$ = this.todoService.todos$;
     this.completedTodos$ = this.todoService.getCompletedTodos();
-    this.incompleteTodos$ = this.todoService.getIncompleteTodos();
+    // this.incompleteTodos$ = this.todoService.getIncompleteTodos();
+  }
+
+  //new
+  ngOnInit(): void {
+    this.todoService.getTodos().subscribe();
   }
 
   onToggleTodoCompletion(id:string){
     this.todoService.toggleTodoCompletion(id);
-    this.incompleteTodos$= this.todoService.getIncompleteTodos();
-    this.completedTodos$= this.todoService.getCompletedTodos();
+    // this.incompleteTodos$= this.todoService.getIncompleteTodos();
+    // this.completedTodos$= this.todoService.getCompletedTodos();
+  }
+  //
+  onRemoveTodo(id: string): void {
+    this.todoService.removeTodo(id).subscribe(() => {
+      this.todos$ = this.todoService.getTodos();
+    });
   }
 
-  onRemoveTodo(id:string){
-    this.todoService.removeTodo(id);
+  trackByTodoId(index: number, todo: Todo): string {
+    return todo.id;
   }
 
   onClearCompletedTodos(){
@@ -51,7 +65,7 @@ export class TodoListComponent {
   onToggleShowCompletedTodos(){
     this.showCompletedTodos = !this.showCompletedTodos;
   }
-
+  //
   hasTodosCompleted(): boolean {
     let hasCompletedTodos = false;
     this.todos$.subscribe(todos => {
