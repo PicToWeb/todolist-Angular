@@ -6,9 +6,14 @@
       <digi-todo-add></digi-todo-add>
     </div>
     <div class="mt-8">
+      @if (hasTodosCompleted()){
+      <button (click)="onToggleShowCompletedTodos()" class="underline-offset-1 p-2 text-blue-500">
+        {{ showCompletedTodos ? 'Show All Tasks' : 'Show Completed Tasks' }}
+      </button>
+      }
       <ul>
 
-        @for (todo of todos$ | async;track todos$ ){
+        @for (todo of (showCompletedTodos ? completedTodos$ : todos$) | async;track todos$ ){
           <li class="p-2 rounded-lg">
             <digi-todo-item [todo]="todo" (toggleCompletion) = "onToggleTodoCompletion($event)" (remove)="onRemoveTodo($event)"></digi-todo-item>
           </li>
@@ -16,12 +21,16 @@
       </ul>
     </div>
     <div class="mt-8">
+      @if (hasTodosCompleted()){
       <button (click)="onClearCompletedTodos()"
         class="border-2 border-red-500 p-2 text-red-500"
       >Clear Completed Task</button>
+      }
+      @if (hasTodos()){
       <button (click)="onResetTodos()"
         class="border-2 border-indigo-500 p-2 text-indigo-500 ml-4"
       >Reset Todo List</button>
+      }
     </div>
   </div>
 </div>

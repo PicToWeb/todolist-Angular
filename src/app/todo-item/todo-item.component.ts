@@ -17,8 +17,8 @@ import {PriorityPipe} from "../priority.pipe";
 export class TodoItemComponent {
 
   @Input() todo!: Todo;
-  @Output() toggleCompletion = new EventEmitter<number>();
-  @Output() remove = new EventEmitter<number>();
+  @Output() toggleCompletion = new EventEmitter<string>();
+  @Output() remove = new EventEmitter<string>();
 
   onToggleCompletion(){
     this.toggleCompletion.emit(this.todo.id);

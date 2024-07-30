@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, map, Observable} from "rxjs";
 
 export interface Todo {
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
   priority:'low' | 'middle' | 'high';
@@ -24,9 +24,21 @@ export class TodoService {
     return this.todosSubject.asObservable();
   }
 
+  getCompletedTodos():Observable<Todo[]> {
+    return this.todosSubject.asObservable().pipe(
+      map(todos=>todos.filter(todo=>todo.completed))
+    );
+  }
+
+  getIncompleteTodos(): Observable<Todo[]> {
+    return this.todosSubject.asObservable().pipe(
+      map(todos => todos.filter(todo => !todo.completed))
+    );
+  }
+
   addTodo(title:string,priority:'low' | 'middle' | 'high',dueDate:Date){
     const newTodo: Todo = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       title,
       completed:false,
       priority,
@@ -36,12 +48,12 @@ export class TodoService {
     this.todosSubject.next(this.todos);
   }
 
-  toggleTodoCompletion(id:number){
+  toggleTodoCompletion(id:string){
     this.todos = this.todos.map(todo=>todo.id===id?{...todo,completed:!todo.completed}:todo);
     this.todosSubject.next(this.todos);
   }
 
-  removeTodo(id:number){
+  removeTodo(id:string){
     this.todos = this.todos.filter(todo=>todo.id!==id);
     this.todosSubject.next(this.todos);
   }
