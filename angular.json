@@ -8,7 +8,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "digi",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -92,5 +92,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "9e2be980-219b-4892-a1e7-fe0a41eadb80"
   }
 }

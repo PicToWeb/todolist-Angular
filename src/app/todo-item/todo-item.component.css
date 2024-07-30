@@ -1,0 +1,17 @@
+/* src/app/todo-item/todo-item.component.css */
+.low-priority {
+  color: green;
+}
+
+.middle-priority {
+  color: orange;
+}
+
+.high-priority {
+  color: red;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}

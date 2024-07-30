@@ -1,0 +1,27 @@
+
+<div class="w-full h-screen bg-gray-100 pt-8">
+  <div class="bg-white p-3 max-w-lg mx-auto">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold">ToDo App</h1>
+      <digi-todo-add></digi-todo-add>
+    </div>
+    <div class="mt-8">
+      <ul>
+
+        @for (todo of todos$ | async;track todos$ ){
+          <li class="p-2 rounded-lg">
+            <digi-todo-item [todo]="todo" (toggleCompletion) = "onToggleTodoCompletion($event)" (remove)="onRemoveTodo($event)"></digi-todo-item>
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="mt-8">
+      <button (click)="onClearCompletedTodos()"
+        class="border-2 border-red-500 p-2 text-red-500"
+      >Clear Completed Task</button>
+      <button (click)="onResetTodos()"
+        class="border-2 border-indigo-500 p-2 text-indigo-500 ml-4"
+      >Reset Todo List</button>
+    </div>
+  </div>
+</div>
