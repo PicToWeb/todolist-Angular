@@ -5,9 +5,11 @@
       <digi-todo-add (addTodo)="addTask($event)"></digi-todo-add>
     </div>
     <div class="mt-8">
+      @if (hasTodos() || !showCompletedTodos) {
       <button (click)="toggleShowCompletedTodos()" class="underline-offset-1 p-2 text-blue-500">
         {{ showCompletedTodos ? 'Show Incomplete Tasks' : 'Show Completed Tasks' }}
       </button>
+      }
       <ul>
         <li *ngFor="let todo of todos$ | async | filterTodo: showCompletedTodos; trackBy: trackById"
             class="p-2 rounded-lg">

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Todo, TodoService} from "../todo.service";
-import {defaultIfEmpty, first, map, Observable} from "rxjs";
+import {defaultIfEmpty, Observable} from "rxjs";
 import {TodoAddComponent} from "../todo-add/todo-add.component";
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {TodoItemComponent} from "../todo-item/todo-item.component";
@@ -122,11 +122,8 @@ export class TodoListComponent implements OnInit {
    * @description Check if there are any todos
    * @returns true if there are todos, false otherwise
    */
-  hasTodos(): Observable<boolean> {
-    return this.todos$.pipe(
-      map(todos => todos.length > 0),
-      first()
-    );
+  hasTodos(): boolean {
+    return this.todoService.hasToDo();
   }
 
 }

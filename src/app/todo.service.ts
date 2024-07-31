@@ -112,6 +112,11 @@ export class TodoService {
     return todos.some(todo => todo.completed);
   }
 
+  hasToDo(): boolean {
+    const todos = this.todosSubject.value;
+    return todos.some(todo => !todo.completed);
+  }
+
   /**
    * Clear all completed todos from the list of todos
    * @returns An observable that completes when the completed todos are removed
