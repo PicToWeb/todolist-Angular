@@ -22,7 +22,7 @@ export class TodoListComponent implements OnInit {
   completedTodos$: Observable<Todo[]> ;
   showCompletedTodos:boolean = false;
 
-  constructor(private todoService: TodoService)  {
+  constructor(private todoService: TodoService) {
     this.todos$ = this.todoService.getTodos();
     this.completedTodos$ = this.todoService.getCompletedTodos();
   }

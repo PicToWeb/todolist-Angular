@@ -32,6 +32,10 @@ export class TodoService {
     );
   }
 
+  getTodoById(id:string):Observable<Todo>{
+    return this.http.get<Todo>(`${this.apiURL}/${id}`);
+  }
+
   /**
    * Add a new todo
    * @param id The id of the todo
