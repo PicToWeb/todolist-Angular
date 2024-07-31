@@ -1,57 +1,52 @@
-import { Component } from '@angular/core';
-import {Todo, TodoService} from "../todo.service";
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {DatePipe} from "@angular/common";
-import {Observable} from "rxjs";
+import {Todo} from "../todo.service";
 
 @Component({
   selector: 'digi-todo-add',
   standalone: true,
   imports: [
-    FormsModule,DatePipe
+    FormsModule, DatePipe
   ],
   templateUrl: './todo-add.component.html',
   styleUrl: './todo-add.component.css'
 })
+/** @class */
 export class TodoAddComponent {
 
-  // todos$: Observable<Todo[]> ;
+  /** @type {string} */
   newTodoTitle: string = '';
+  /** @type {boolean} */
+  newTodoCompleted: boolean = false;
+  /** @type {'low' | 'middle' | 'high'} */
   newToDoPriority: 'low' | 'middle' | 'high' = 'low';
+  /** @type {string} */
   newTodoDueDate: string = '';
 
-  constructor(private todoService: TodoService) {
-    // this.todos$ = this.todoService.getTodos();
-  }
+  /** @type {EventEmitter<Todo>} */
+  @Output() addTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
 
-  onAddTodo() {
-    if (this.newTodoTitle.trim()) {
-      this.todoService.addTodo(
-        this.newTodoTitle,
-        this.newToDoPriority,
-        new Date(this.newTodoDueDate)
-      ).subscribe(() => {
-        this.newTodoTitle = '';
-        this.newToDoPriority = 'low';
-        this.newTodoDueDate = '';
-        // this.todos$ = this.todoService.getTodos();
-      });
+  /**
+   * @method onAddTodo
+   * @return {void}
+   * @description   This method is called when the user clicks the "Add" button. It emits a new todo item with the title, completion status, priority, and due date entered by the user. It then resets the input fields to their initial values.
+   */
+  onAddTodo(): void {
+    if (this.newTodoTitle.trim() && this.newToDoPriority.trim()) {
+      const uuid = crypto.randomUUID();
+      const truncatedUuid = uuid.substring(0, 8);
+      const newTodo: Todo = {
+        id: truncatedUuid,
+        title: this.newTodoTitle,
+        completed: this.newTodoCompleted,
+        priority: this.newToDoPriority,
+        dueDate: new Date(this.newTodoDueDate)
+      };
+      this.addTodo.emit(newTodo);
+      this.newTodoTitle = '';
+      this.newToDoPriority = 'low';
+      this.newTodoDueDate = '';
     }
   }
-
-  //
-  // onAddTodo(){
-  //   if(this.newTodoTitle.trim()){
-  //     this.todoService.addTodo(
-  //       this.newTodoTitle,
-  //       this.newToDoPriority,
-  //       new Date(this.newTodoDueDate));
-  //     this.newTodoTitle = '';
-  //     this.newToDoPriority = 'low';
-  //     this.newTodoDueDate = '';
-  //   }
-  // }
-
-
-
 }
