@@ -5,14 +5,14 @@
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="completed">
         Tâche réalisée ?
       </label>
-      <input id="completed" type="checkbox" class="h-6 w-6 " [checked]="todo.completed"/>
+      <input disabled id="completed" type="checkbox" class="h-6 w-6 " [checked]="todo.completed"/>
     </div>
 
     <div class="md:w-1/2 px-3 mb-6 md:mb-0">
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="priorite">
         Priorité
       </label>
-      <select class="block w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
+      <select disabled class="block w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
               id="priorite"
               [(ngModel)]="todo.priority" [ngClass]="{
               'low-priority': todo.priority === 'low',
@@ -30,7 +30,7 @@
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="titre">
         Titre de la tâche :
       </label>
-      <input
+      <input disabled
         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3"
         [ngClass]="{'completed': todo.completed}" [class.completed]="todo.completed" id="titre" type="text"
         value="{{ todo.title }}">
@@ -41,7 +41,7 @@
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="dateTask">
         Date de la tâche
       </label>
-      <input
+      <input disabled
         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
         id="dateTask" type="text" value="{{todo.dueDate | date:'dd/MM/yyyy'}}">
     </div>
@@ -49,7 +49,7 @@
       <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="otherData">
         Autre champs ?
       </label>
-      <input
+      <input disabled
         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
         id="otherData" type="text" >
     </div>

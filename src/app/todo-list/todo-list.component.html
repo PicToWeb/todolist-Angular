@@ -1,4 +1,3 @@
-
 <div class="w-full h-screen bg-gray-100 pt-8">
   <div class="bg-white p-3 max-w-lg mx-auto">
     <div class="text-center">
@@ -6,29 +5,29 @@
       <digi-todo-add (addTodo)="addTask($event)"></digi-todo-add>
     </div>
     <div class="mt-8">
-      @if (hasTodosCompleted()){
-      <button (click)="onToggleShowCompletedTodos()" class="underline-offset-1 p-2 text-blue-500">
-        {{ showCompletedTodos ? 'Show All Tasks' : 'Show Completed Tasks' }}
+      <button (click)="toggleShowCompletedTodos()" class="underline-offset-1 p-2 text-blue-500">
+        {{ showCompletedTodos ? 'Show Incomplete Tasks' : 'Show Completed Tasks' }}
       </button>
-      }
       <ul>
-        @for (todo of (showCompletedTodos ? completedTodos$ : todos$) | async;track $index ){
-          <li class="p-2 rounded-lg" >
-            <digi-todo-item [todo]="todo" (toggleCompletion) = "onToggleTodoCompletion($event)" (remove)="onRemoveTodo($event)"></digi-todo-item>
-          </li>
-        }
+        <li *ngFor="let todo of todos$ | async | filterTodo: showCompletedTodos; trackBy: trackById"
+            class="p-2 rounded-lg">
+          <digi-todo-item [todo]="todo" (toggleCompletion)="onToggleTodoCompletion(todo.id)"
+                          (remove)="onRemoveTodo(todo.id)"></digi-todo-item>
+        </li>
       </ul>
     </div>
     <div class="mt-8">
-      @if (hasTodosCompleted()){
-      <button (click)="onClearCompletedTodos()"
-        class=" p-2 text-red-500"
-      >Clear Completed Task</button>
+      @if (hasTodosCompleted()) {
+        <button (click)="onClearCompletedTodos()"
+                class=" p-2 text-red-500"
+        >Clear Completed Task
+        </button>
       }
-      @if (hasTodos()){
-      <button (click)="onResetTodos()"
-        class=" p-2 text-indigo-500 ml-4"
-      >Reset Todo List</button>
+      @if (hasTodos()) {
+        <button (click)="onResetTodos()"
+                class=" p-2 text-indigo-500 ml-4"
+        >Reset Todo List
+        </button>
       }
     </div>
   </div>

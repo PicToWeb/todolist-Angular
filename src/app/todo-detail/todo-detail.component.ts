@@ -19,22 +19,24 @@ import {FormsModule} from "@angular/forms";
   templateUrl: './todo-detail.component.html',
   styleUrl: './todo-detail.component.css'
 })
+/** todo-detail component*/
 export class TodoDetailComponent implements OnInit {
 
+  /** todo-detail ctor */
   todo: Todo | undefined;
 
+  /** todo-detail ctor */
   constructor(
     private route: ActivatedRoute,
     private todoService: TodoService
   ) {}
 
+  /** todo-detail ctor */
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
     if (id) {
       this.todoService.getTodoById(id).subscribe(todo => {
         this.todo = {...todo, dueDate: new Date(todo.dueDate)};
-        console.log(this.todo.dueDate);
       });
     }
   }

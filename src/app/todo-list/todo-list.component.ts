@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Todo, TodoService} from "../todo.service";
-import {first, map, Observable} from "rxjs";
+import {defaultIfEmpty, first, map, Observable} from "rxjs";
 import {TodoAddComponent} from "../todo-add/todo-add.component";
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {TodoItemComponent} from "../todo-item/todo-item.component";
+import {FilterTodoPipe} from "../filter-todo.pipe";
 
 @Component({
   selector: 'digi-todo-list',
@@ -12,70 +13,115 @@ import {TodoItemComponent} from "../todo-item/todo-item.component";
     TodoAddComponent,
     AsyncPipe,
     TodoItemComponent,
-    NgForOf
+    NgForOf,
+    FilterTodoPipe
   ],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.css'
 })
+/** TodoList component */
 export class TodoListComponent implements OnInit {
+  /** List of todos */
   todos$: Observable<Todo[]> ;
-  completedTodos$: Observable<Todo[]> ;
+  /** Show completed todos */
   showCompletedTodos:boolean = false;
 
+  /** Constructor */
   constructor(private todoService: TodoService) {
-    this.todos$ = this.todoService.getTodos();
-    this.completedTodos$ = this.todoService.getCompletedTodos();
+    this.todos$ = this.todoService.getTodos().pipe(defaultIfEmpty([]));
   }
 
-
+  /** OnInit */
   ngOnInit(): void {
-    this.todos$ = this.todoService.getTodos();
+    this.todos$ = this.todoService.getTodos().pipe(defaultIfEmpty([]));
   }
 
-  addTask({id,title,completed,priority,date}: { id: string; title: string;completed:boolean; priority: 'low' | 'middle' | 'high'; date: string; }) {
-    this.todoService.addTodo(
-      id,
-      title,
-      completed,
-      priority,
-      new Date(date)
-    ).subscribe(() => {
-      this.todos$ = this.todoService.getTodos();
-    });
+  /**
+   * Add task to todo list
+   * @param todo - todo to add
+   * @description Add task to todo list
+   */
+  addTask(todo: Todo) {
+    this.todoService.addTodo(todo).subscribe(() => {
+      this.todos$ = this.todoService.getTodos().pipe(defaultIfEmpty([]));
+        });
   }
 
+  /**
+   * Toggle todo completion
+   * @param id - todo id
+   * @description Toggle todo completion
+   */
   onToggleTodoCompletion(id: string): void {
     this.todoService.toggleTodoCompletion(id).subscribe(() => {
-      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
+      this.todos$ = this.todoService.getTodos().pipe(defaultIfEmpty([]));
     });
   }
 
-  onRemoveTodo(id: string): void {
-    this.todoService.removeTodo(id).subscribe(() => {
-      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
-    });
-  }
-
-  onClearCompletedTodos(): void {
-    this.todoService.clearCompletedTodos().subscribe(() => {
-      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
-    });
-  }
-
-  onResetTodos(): void {
-    this.todoService.resetTodos().subscribe(() => {
-      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
-    });
-  }
-
-  onToggleShowCompletedTodos(){
+  /**
+   * Toggle show completed todos
+   * @description Toggle show completed todos
+   */
+  toggleShowCompletedTodos(){
     this.showCompletedTodos = !this.showCompletedTodos;
   }
 
+  /**
+   * Remove todo from list
+   * @param id - todo id
+   * @description Remove todo from list
+   */
+  onRemoveTodo(id: string): void {
+    this.todoService.removeTodo(id).subscribe(() => {
+      this.todos$ = this.todoService.getTodos().pipe(defaultIfEmpty([]));
+    });
+  }
+
+  /**
+   * Clear completed todos
+   * @description Clear completed todos
+   */
+  onClearCompletedTodos(): void {
+    this.todoService.clearCompletedTodos().subscribe(() => {
+      this.todos$ = this.todoService.getTodos().pipe(defaultIfEmpty([]));
+    });
+  }
+
+  /**
+   * Reset todos
+   * @description Reset todos
+   */
+  onResetTodos(): void {
+    this.todoService.resetTodos().subscribe(() => {
+      this.todos$ = this.todoService.getTodos().pipe(defaultIfEmpty([]));
+    });
+  }
+
+  /**
+   * Track by id
+   * @param _ - index
+   * @param todo - todo
+   * @description Track by id
+   * @returns id of todo
+   */
+  trackById(_: number, todo: Todo): string {
+    return todo.id;
+  }
+
+  /**
+   * Has todos completed
+   * @description Check if there are any completed todos
+   * @returns true if there are completed todos, false otherwise
+   */
   hasTodosCompleted(): boolean {
     return this.todoService.hasCompletedTodos();
   }
 
+  /**
+   * Has todos
+   * @description Check if there are any todos
+   * @returns true if there are todos, false otherwise
+   */
   hasTodos(): Observable<boolean> {
     return this.todos$.pipe(
       map(todos => todos.length > 0),
