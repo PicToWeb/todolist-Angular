@@ -19,23 +19,16 @@ import {TodoItemComponent} from "../todo-item/todo-item.component";
 })
 export class TodoListComponent implements OnInit {
   todos$: Observable<Todo[]> ;
-  // completedTodos$: Observable<any[]> ;
-  // incompleteTodos$: Observable<any[]>;
-
-  // todos$: Observable<Todo[]> ;
-  //  completedTodos$: Observable<Todo[]> ;
-  // incompleteTodos$: Observable<Todo[]>;
+  completedTodos$: Observable<Todo[]> ;
   showCompletedTodos:boolean = false;
 
   constructor(private todoService: TodoService)  {
     this.todos$ = this.todoService.getTodos();
-    // this.completedTodos$ = this.todoService.getCompletedTodos();
-    // this.incompleteTodos$ = this.todoService.getIncompleteTodos();
+    this.completedTodos$ = this.todoService.getCompletedTodos();
   }
 
-  //new
+
   ngOnInit(): void {
-    // this.todoService.getTodos().subscribe();
     this.todos$ = this.todoService.getTodos();
   }
 
@@ -51,50 +44,43 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  onToggleTodoCompletion(id:string){
-    this.todoService.toggleTodoCompletion(id);
-    this.todos$ = this.todoService.getTodos();
+  onToggleTodoCompletion(id: string): void {
+    this.todoService.toggleTodoCompletion(id).subscribe(() => {
+      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
+    });
   }
 
   onRemoveTodo(id: string): void {
     this.todoService.removeTodo(id).subscribe(() => {
-      this.todos$ = this.todoService.getTodos();
+      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
     });
   }
 
-  trackByTodoId(index: number, todo: Todo): string {
-    return todo.id;
+  onClearCompletedTodos(): void {
+    this.todoService.clearCompletedTodos().subscribe(() => {
+      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
+    });
   }
 
-  // onClearCompletedTodos(){
-  //   this.todoService.clearCompletedTodos();
-  // }
-  //
-  // onResetTodos() {
-  //   this.todoService.resetTodos();
-  // }
+  onResetTodos(): void {
+    this.todoService.resetTodos().subscribe(() => {
+      this.todos$ = this.todoService.getTodos(); // Refresh the todos$ observable
+    });
+  }
 
-  // onToggleShowCompletedTodos(){
-  //   this.showCompletedTodos = !this.showCompletedTodos;
-  // }
+  onToggleShowCompletedTodos(){
+    this.showCompletedTodos = !this.showCompletedTodos;
+  }
 
   hasTodosCompleted(): boolean {
-    let hasCompletedTodos = false;
-    this.todos$.subscribe(todos => {
-      hasCompletedTodos = todos.some(todo => todo.completed);
-    });
-    return hasCompletedTodos;
+    return this.todoService.hasCompletedTodos();
   }
 
-  // hasTodos(): boolean {
-  //   let hasTodos = false;
-  //   this.todos$.pipe(
-  //     map(todos => todos.length > 0),
-  //     first()
-  //   ).subscribe(result => {
-  //     hasTodos = result;
-  //   });
-  //   return hasTodos;
-  // }
+  hasTodos(): Observable<boolean> {
+    return this.todos$.pipe(
+      map(todos => todos.length > 0),
+      first()
+    );
+  }
 
 }
