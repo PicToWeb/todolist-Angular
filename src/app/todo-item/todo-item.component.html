@@ -7,7 +7,7 @@
   <div class="p-2">
     <p class="text-lg text-black-400" [ngClass]="{'completed': todo.completed}" [class.completed]="todo.completed" >{{ todo.title }}</p>
     <p class="text-sm text-gray-500">
-      Date: {{ todo.dueDate | date:'dd-MM-yyyy' }}
+      Date: {{ todo.dueDate | date: 'dd/MM/yyyy' }}
     </p>
   </div>
   <span [ngClass]="{

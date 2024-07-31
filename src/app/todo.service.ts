@@ -29,33 +29,8 @@ export class TodoService {
     );
   }
 
-  //CHERCHE LENTEUR
-  getCompletedTodos():Observable<Todo[]> {
-    return this.todosSubject.asObservable().pipe(
-      map(todos=>todos.filter(todo=>todo.completed))
-    );
-  }
-  //
-  // getIncompleteTodos(): Observable<Todo[]> {
-  //   return this.todosSubject.asObservable().pipe(
-  //     map(todos => todos.filter(todo => !todo.completed))
-  //   );
-  // }
-
-  addTodo(title: string, priority: 'low' | 'middle' | 'high', dueDate: Date): Observable<Todo> {
-    const newTodo: Todo = {
-      id: crypto.randomUUID(),
-      title,
-      completed: false,
-      priority,
-      dueDate
-    };
-    return this.http.post<Todo>(this.apiURL, newTodo).pipe(
-      map(todo => {
-        this.todosSubject.next([...this.todosSubject.value, todo]);
-        return todo;
-      })
-    );
+  addTodo(id:string,title:string,completed:boolean,priority:'low'|'middle'|'high',dueDate:Date):Observable<void>{
+    return this.http.post<void>(this.apiURL,{id,title,completed,priority,dueDate});
   }
 
   toggleTodoCompletion(id: string): void {
@@ -70,43 +45,45 @@ export class TodoService {
     }
   }
 
-  // toggleTodoCompletion(id:string){
-  //   this.todos = this.todos.map(todo=>todo.id===id?{...todo,completed:!todo.completed}:todo);
-  //   this.todosSubject.next(this.todos);
-  // }
-
   removeTodo(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiURL}/${id}`).pipe(
-      map(() => {
-        const updatedTodos = this.todosSubject.value.filter(todo => todo.id !== id);
-        this.todosSubject.next(updatedTodos);
-      })
-    );
+    return this.http.delete<void>(`${this.apiURL}/${id}`);
   }
 
-  // removeTodo(id:string){
-  //   this.todos = this.todos.filter(todo=>todo.id!==id);
-  //   this.todosSubject.next(this.todos);
+  // getCompletedTodos():Observable<Todo[]> {
+  //   return this.todosSubject.asObservable().pipe(
+  //     map(todos=>todos.filter(todo=>todo.completed))
+  //   );
+  // }
+  //
+  // getIncompleteTodos(): Observable<Todo[]> {
+  //   return this.todosSubject.asObservable().pipe(
+  //     map(todos => todos.filter(todo => !todo.completed))
+  //   );
   // }
 
-  clearCompletedTodos(): void {
-    const completedTodos = this.todosSubject.value.filter(todo => todo.completed);
-    completedTodos.forEach(todo => {
-      this.http.delete<void>(`${this.apiURL}/${todo.id}`).subscribe(() => {
-        const updatedTodos = this.todosSubject.value.filter(t => t.id !== todo.id);
-        this.todosSubject.next(updatedTodos);
-      });
-    });
-  }
 
-  resetTodos(): void {
-    const allTodos = this.todosSubject.value;
-    allTodos.forEach(todo => {
-      this.http.delete<void>(`${this.apiURL}/${todo.id}`).subscribe(() => {
-        const updatedTodos = this.todosSubject.value.filter(t => t.id !== todo.id);
-        this.todosSubject.next(updatedTodos);
-      });
-    });
-  }
+
+
+
+
+  // clearCompletedTodos(): void {
+  //   const completedTodos = this.todosSubject.value.filter(todo => todo.completed);
+  //   completedTodos.forEach(todo => {
+  //     this.http.delete<void>(`${this.apiURL}/${todo.id}`).subscribe(() => {
+  //       const updatedTodos = this.todosSubject.value.filter(t => t.id !== todo.id);
+  //       this.todosSubject.next(updatedTodos);
+  //     });
+  //   });
+  // }
+
+  // resetTodos(): void {
+  //   const allTodos = this.todosSubject.value;
+  //   allTodos.forEach(todo => {
+  //     this.http.delete<void>(`${this.apiURL}/${todo.id}`).subscribe(() => {
+  //       const updatedTodos = this.todosSubject.value.filter(t => t.id !== todo.id);
+  //       this.todosSubject.next(updatedTodos);
+  //     });
+  //   });
+  // }
 
 }
