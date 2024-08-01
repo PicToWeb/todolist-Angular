@@ -14,8 +14,14 @@ export interface User {
 export class SignInService {
 
   private usersUrl = 'http://localhost:3000/users';
-  private userSubject = new BehaviorSubject<User[]>([]);
-  constructor(private http: HttpClient) { }
+  private userSubject = new BehaviorSubject<User| null>(null);
+
+  constructor(private http: HttpClient) {
+    const storedUser = localStorage.getItem('loggedInUser');
+    if(storedUser){
+      this.userSubject.next(JSON.parse(storedUser));
+    }
+  }
 
   addUser(user:User):Observable<User>{
     return this.http.post<User>(this.usersUrl,user);
@@ -26,8 +32,9 @@ export class SignInService {
       .pipe(
         map(users => {
           if (users.length > 0) {
-            this.userSubject.next(users);
-            return users[0];
+            const user = users[0];
+            this.userSubject.next(user);
+            return user;
           } else {
             throw new Error('Invalid email or password');
           }
@@ -36,8 +43,13 @@ export class SignInService {
       );
   }
 
-  getUser(): Observable<User[]> {
+  getUser(): Observable<User|null> {
     return this.userSubject.asObservable();
+  }
+
+  logout(): void {
+    localStorage.removeItem('loggedInUser');
+    this.userSubject.next(null);
   }
 
   private loginError(error: HttpErrorResponse){

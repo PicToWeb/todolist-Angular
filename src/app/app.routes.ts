@@ -4,12 +4,15 @@ import {TodoDetailComponent} from "./todo/todo-detail/todo-detail.component";
 import {TodoRemoveComponent} from "./todo/todo-remove/todo-remove.component";
 import {SignInComponent} from "./authenticate/signin/signIn.component";
 import {LoginComponent} from "./authenticate/login/login.component";
+import {MyAccountComponent} from "./account/my-account/my-account.component";
+import {AuthGuard} from "./auth/auth.guard";
 
 
 export const routes: Routes = [
   {path: '', component: LoginComponent},
   {path:'sign-in',component: SignInComponent},
-  {path:'list' ,component:TodoListComponent },
+  {path:'my-account',component:MyAccountComponent,canActivate: [AuthGuard]},
+  {path:'list' ,component:TodoListComponent,canActivate: [AuthGuard] },
   {path:'view/:id',component: TodoDetailComponent},
   {path:'remove/:id',component: TodoRemoveComponent},
 

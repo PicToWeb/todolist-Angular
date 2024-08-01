@@ -1,0 +1,6 @@
+<div *ngIf="userData">
+  <h1>Welcome, {{ userData.username }}</h1>
+  <p>Email: {{ userData.email }}</p>
+  <button (click)="logout()">Logout</button>
+  <!-- Add more user data fields as needed -->
+</div>

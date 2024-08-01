@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit{
 
   ngOnInit() {
     this.userSubscription = this.signInService.getUser().subscribe(users =>{
-      this.users = users;
+      this.users = users ? [users] : [];
     });
   }
 
