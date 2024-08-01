@@ -28,5 +28,19 @@
       "priority": "low",
       "dueDate": "2024-08-04T00:00:00.000Z"
     }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "user1",
+      "email": "toto@gmail.com",
+      "password": "password1"
+    },
+    {
+      "id": "25d6694f-bbf7-43f5-be7c-e34b108206f9",
+      "username": "fezfezf",
+      "email": "admin@admin.com",
+      "password": "123"
+    }
   ]
 }

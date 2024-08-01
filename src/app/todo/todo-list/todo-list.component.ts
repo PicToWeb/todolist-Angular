@@ -4,7 +4,7 @@ import {defaultIfEmpty, Observable} from "rxjs";
 import {TodoAddComponent} from "../todo-add/todo-add.component";
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {TodoItemComponent} from "../todo-item/todo-item.component";
-import {FilterTodoPipe} from "../filter-todo.pipe";
+import {FilterTodoPipe} from "../../filter-todo.pipe";
 
 @Component({
   selector: 'digi-todo-list',

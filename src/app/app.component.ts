@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {TodoListComponent} from "./todo-list/todo-list.component";
+import {TodoListComponent} from "./todo/todo-list/todo-list.component";
 
 @Component({
   selector: 'app-root',

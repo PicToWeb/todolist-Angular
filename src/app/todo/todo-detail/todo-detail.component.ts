@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DatePipe, NgClass, NgIf} from "@angular/common";
-import {PriorityPipe} from "../priority.pipe";
+import {PriorityPipe} from "../../priority.pipe";
 import {Todo, TodoService} from "../todo.service";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";

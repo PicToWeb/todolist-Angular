@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Todo} from "../todo.service";
 import {DatePipe, NgClass} from "@angular/common";
-import {PriorityPipe} from "../priority.pipe";
 import {RouterLink} from "@angular/router";
+import {PriorityPipe} from "../../priority.pipe";
 
 @Component({
   selector: 'digi-todo-item',
