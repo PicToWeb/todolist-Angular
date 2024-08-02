@@ -33,7 +33,7 @@ export class SignInComponent {
       this.username = '';
       this.email = '';
       this.password = '';
-      this.router.navigate(['/']).then();
+      this.router.navigate(['/login']).then();
     });
   }
 

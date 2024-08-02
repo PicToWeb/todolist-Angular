@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SignInService, User} from "../../authenticate/sign-in.service";
 import {NgIf} from "@angular/common";
 import {Router} from "@angular/router";
@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.css'
 })
-export class MyAccountComponent {
+export class MyAccountComponent implements OnInit{
   userData:User | null = null;
 
   constructor(private signInService:SignInService, private router: Router) {  }
